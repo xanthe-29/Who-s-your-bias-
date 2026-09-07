@@ -45,14 +45,14 @@
   </div>
 
   <script>
-    // Sample Idol Database
+    // K-Pop Idol Database with Actual Photos & Fun Facts
     const idolData = [
       {
         id: "jurin",
         stageName: "Jurin",
         fullName: "Asaawa Jurin",
         group: "XG",
-        photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80",
+        photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/240523_XG_Jurin.jpg/800px-240523_XG_Jurin.jpg",
         funFact: "Former professional snowboarder and XG leader! 🏂"
       },
       {
@@ -60,24 +60,40 @@
         stageName: "Chisa",
         fullName: "Kondou Chisa",
         group: "XG",
-        photo: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop&q=80",
-        funFact: "Inspired to become an artist by Namie Amuro! 🎤"
+        photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/240523_XG_Chisa.jpg/800px-240523_XG_Chisa.jpg",
+        funFact: "Sub-leader of XG, inspired to become an artist by Namie Amuro! 🎤"
       },
       {
         id: "cocona",
         stageName: "Cocona",
         fullName: "Akiyama Kokona",
         group: "XG",
-        photo: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=500&auto=format&fit=crop&q=80",
-        funFact: "Known for her powerful dance and vocal versatility! 💥"
+        photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/240523_XG_Cocona.jpg/800px-240523_XG_Cocona.jpg",
+        funFact: "Youngest member (Maknae) of XG, famous for her rap & dance flow! 💥"
       },
       {
-        id: "hinata",
-        stageName: "Hinata",
-        fullName: "Sohara Hinata",
-        group: "XG",
-        photo: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&auto=format&fit=crop&q=80",
-        funFact: "Loves crafting and creating unique DIY art! 🎨"
+        id: "wonhee",
+        stageName: "Wonhee",
+        fullName: "Lee Won-hee",
+        group: "ILLIT",
+        photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/240325_Wonhee_%28ILLIT%29.jpg/800px-240325_Wonhee_%28ILLIT%29.jpg",
+        funFact: "Scouted while at a train station and trained for just 2 months before R U Next! 🌟"
+      },
+      {
+        id: "iroha",
+        stageName: "Iroha",
+        fullName: "Hokazono Iroha",
+        group: "ILLIT",
+        photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/240325_Iroha_%28ILLIT%29.jpg/800px-240325_Iroha_%28ILLIT%29.jpg",
+        funFact: "Main dancer of ILLIT, started learning dance at 3 years old! 💃"
+      },
+      {
+        id: "minju",
+        stageName: "Minju",
+        fullName: "Park Min-ju",
+        group: "ILLIT",
+        photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/240325_Minju_%28ILLIT%29.jpg/800px-240325_Minju_%28ILLIT%29.jpg",
+        funFact: "Former YG Entertainment trainee with unique vocal tones! 🎶"
       }
     ];
 
@@ -140,7 +156,7 @@
             ✨ Correct! ${correctIdol.funFact}
           </div>
         `;
-        setTimeout(renderQuiz, 2200);
+        setTimeout(renderQuiz, 2400);
       } else {
         currentStreak = 0;
         document.getElementById('streak-count').innerText = currentStreak;

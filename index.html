@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Who's Your Bias?</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-900 text-white min-h-screen flex justify-center items-center p-0 sm:p-4">
+
+  <div id="app" class="w-full max-w-md bg-slate-800 sm:rounded-3xl shadow-2xl min-h-screen sm:min-h-[840px] flex flex-col justify-between overflow-hidden border border-slate-700">
+    
+    <!-- Top Header -->
+    <header class="p-4 bg-slate-900/80 backdrop-blur border-b border-slate-700 flex justify-between items-center sticky top-0 z-10">
+      <div>
+        <h1 class="text-xl font-bold bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
+          Who's Your Bias? ✨
+        </h1>
+        <p class="text-xs text-slate-400">Idol Quiz & Photocard Binder</p>
+      </div>
+      <div class="flex items-center space-x-2 bg-slate-800 px-3 py-1 rounded-full border border-slate-700">
+        <span class="text-sm">🔥</span>
+        <span id="streak-count" class="text-sm font-bold text-pink-400">0</span>
+      </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main id="main-content" class="p-4 flex-1 flex flex-col justify-center">
+      <!-- Dynamic Content Loaded via JS -->
+    </main>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bg-slate-900 border-t border-slate-800 grid grid-cols-2 p-2 text-center sticky bottom-0">
+      <button onclick="switchTab('quiz')" id="nav-quiz" class="py-2 flex flex-col items-center text-pink-400 font-medium text-xs">
+        <span class="text-lg">🎯</span> Quiz
+      </button>
+      <button onclick="switchTab('binder')" id="nav-binder" class="py-2 flex flex-col items-center text-slate-400 font-medium text-xs">
+        <span class="text-lg">🎴</span> Binder
+      </button>
+    </nav>
+
+  </div>
+
+  <script>
+    // K-Pop Idol Database with Actual Photos & Fun Facts
+    const idolData = [
+      {
+        id: "jurin",
+        stageName: "Jurin",
+        fullName: "Asaawa Jurin",
+        group: "XG",
+        photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/240523_XG_Jurin.jpg/800px-240523_XG_Jurin.jpg",
+        funFact: "Former professional snowboarder and XG leader! 🏂"
+      },
+      {
+        id: "chisa",
+        stageName: "Chisa",
+        fullName: "Kondou Chisa",
+        group: "XG",
+        photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/240523_XG_Chisa.jpg/800px-240523_XG_Chisa.jpg",
+        funFact: "Sub-leader of XG, inspired to become an artist by Namie Amuro! 🎤"
+      },
+      {
+        id: "cocona",
+        stageName: "Cocona",
+        fullName: "Akiyama Kokona",
+        group: "XG",
+        photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/240523_XG_Cocona.jpg/800px-240523_XG_Cocona.jpg",
+        funFact: "Youngest member (Maknae) of XG, famous for her rap & dance flow! 💥"
+      },
+      {
+        id: "wonhee",
+        stageName: "Wonhee",
+        fullName: "Lee Won-hee",
+        group: "ILLIT",
+        photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/240325_Wonhee_%28ILLIT%29.jpg/800px-240325_Wonhee_%28ILLIT%29.jpg",
+        funFact: "Scouted while at a train station and trained for just 2 months before R U Next! 🌟"
+      },
+      {
+        id: "iroha",
+        stageName: "Iroha",
+        fullName: "Hokazono Iroha",
+        group: "ILLIT",
+        photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/240325_Iroha_%28ILLIT%29.jpg/800px-240325_Iroha_%28ILLIT%29.jpg",
+        funFact: "Main dancer of ILLIT, started learning dance at 3 years old! 💃"
+      },
+      {
+        id: "minju",
+        stageName: "Minju",
+        fullName: "Park Min-ju",
+        group: "ILLIT",
+        photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/240325_Minju_%28ILLIT%29.jpg/800px-240325_Minju_%28ILLIT%29.jpg",
+        funFact: "Former YG Entertainment trainee with unique vocal tones! 🎶"
+      }
+    ];
+
+    let currentStreak = 0;
+    let currentQuestion = null;
+
+    function getRandomQuestion() {
+      const correctIdol = idolData[Math.floor(Math.random() * idolData.length)];
+      let options = [correctIdol];
+      
+      while (options.length < 4 && options.length < idolData.length) {
+        const randomOption = idolData[Math.floor(Math.random() * idolData.length)];
+        if (!options.some(item => item.id === randomOption.id)) {
+          options.push(randomOption);
+        }
+      }
+      
+      options.sort(() => Math.random() - 0.5);
+      return { correctIdol, options };
+    }
+
+    function renderQuiz() {
+      const main = document.getElementById('main-content');
+      currentQuestion = getRandomQuestion();
+      const { correctIdol, options } = currentQuestion;
+
+      main.innerHTML = `
+        <div class="flex flex-col items-center space-y-4">
+          <div class="w-full max-w-xs aspect-square rounded-2xl overflow-hidden border-2 border-pink-500/30 shadow-lg relative bg-slate-800">
+            <img src="${correctIdol.photo}" alt="Idol" class="w-full h-full object-cover">
+            <div class="absolute top-2 left-2 bg-slate-900/80 backdrop-blur text-pink-300 text-xs px-2.5 py-1 rounded-full border border-pink-500/20">
+              Group: ${correctIdol.group}
+            </div>
+          </div>
+
+          <h2 class="text-lg font-semibold text-center text-slate-200">Who is this idol?</h2>
+
+          <div class="grid grid-cols-2 gap-3 w-full">
+            ${options.map(option => `
+              <button onclick="handleAnswer('${option.id}')" class="w-full py-3 px-4 bg-slate-800 hover:bg-slate-700 active:scale-95 border border-slate-700 hover:border-pink-500 rounded-xl font-medium text-sm transition-all shadow text-center">
+                ${option.stageName}
+              </button>
+            `).join('')}
+          </div>
+
+          <div id="feedback" class="h-12 flex items-center justify-center text-center text-sm font-medium w-full"></div>
+        </div>
+      `;
+    }
+
+    function handleAnswer(selectedId) {
+      const feedback = document.getElementById('feedback');
+      const { correctIdol } = currentQuestion;
+
+      if (selectedId === correctIdol.id) {
+        currentStreak++;
+        document.getElementById('streak-count').innerText = currentStreak;
+        feedback.innerHTML = `
+          <div class="text-emerald-400 bg-emerald-950/50 p-2.5 rounded-xl border border-emerald-800/50 w-full animate-bounce">
+            ✨ Correct! ${correctIdol.funFact}
+          </div>
+        `;
+        setTimeout(renderQuiz, 2400);
+      } else {
+        currentStreak = 0;
+        document.getElementById('streak-count').innerText = currentStreak;
+        feedback.innerHTML = `
+          <div class="text-rose-400 bg-rose-950/50 p-2.5 rounded-xl border border-rose-800/50 w-full">
+            ❌ Oops! That's ${correctIdol.stageName}. Try again!
+          </div>
+        `;
+      }
+    }
+
+    function renderBinder() {
+      const main = document.getElementById('main-content');
+      main.innerHTML = `
+        <div class="text-center space-y-4 py-8">
+          <div class="text-5xl">🎴</div>
+          <h2 class="text-xl font-bold text-pink-300">Photocard Binder</h2>
+          <p class="text-xs text-slate-400 max-w-xs mx-auto">Complete daily quizzes and keep your streak active to unlock booster packs!</p>
+          
+          <div class="grid grid-cols-2 gap-3 mt-4">
+            <div class="bg-slate-800/50 border border-dashed border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center aspect-[2/3]">
+              <span class="text-2xl opacity-40">🔒</span>
+              <span class="text-xs text-slate-500 mt-2">Locked Card</span>
+            </div>
+            <div class="bg-slate-800/50 border border-dashed border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center aspect-[2/3]">
+              <span class="text-2xl opacity-40">🔒</span>
+              <span class="text-xs text-slate-500 mt-2">Locked Card</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function switchTab(tab) {
+      const quizBtn = document.getElementById('nav-quiz');
+      const binderBtn = document.getElementById('nav-binder');
+
+      if (tab === 'quiz') {
+        quizBtn.className = 'py-2 flex flex-col items-center text-pink-400 font-medium text-xs';
+        binderBtn.className = 'py-2 flex flex-col items-center text-slate-400 font-medium text-xs';
+        renderQuiz();
+      } else {
+        binderBtn.className = 'py-2 flex flex-col items-center text-pink-400 font-medium text-xs';
+        quizBtn.className = 'py-2 flex flex-col items-center text-slate-400 font-medium text-xs';
+        renderBinder();
+      }
+    }
+
+    // Initialize App
+    renderQuiz();
+  </script>
+</body>
+</html>
